@@ -1,47 +1,37 @@
 const picturePopup = document.querySelector('.big-picture');
-const popupCancel = picturePopup.querySelector('#picture-cancel');
-const image = picturePopup.querySelector('.big-picture__img').querySelector('img');
-const likesCount = picturePopup.querySelector('.likes-count');
-const commentsCount = picturePopup.querySelector('.comments-count');
-const descriptionPhoto = picturePopup.querySelector('.social__caption');
-//список с комментариями
-const comments = picturePopup.querySelector('.social__comments');
 
-//функция создания попапа
-const getPopup = (url, likes, commentsNumber, description) => {
-  picturePopup.classList.remove('hidden');
-  image.src = url;
-  likesCount.textContent = likes;
-  commentsCount.textContent = commentsNumber;
-  descriptionPhoto.textContent = description;
+const getPopup = (obj) => {
 
-  popupCancel.addEventListener('click', () => {
-    picturePopup.classList.add('hidden');
-    document.body.classList.remove('modal-open');
-  });
-};
-
-//функция создания комментариев в попапе
-const createComments = (array) => {
+  const image = picturePopup.querySelector('.big-picture__img').querySelector('img');
+  const likesCount = picturePopup.querySelector('.likes-count');
+  const commentsCount = picturePopup.querySelector('.comments-count');
+  const descriptionPhoto = picturePopup.querySelector('.social__caption');
+  const comments = picturePopup.querySelector('.social__comments');
+  image.src = obj.url;
+  likesCount.textContent = obj.likes;
+  commentsCount.textContent = obj.comments.length;
+  descriptionPhoto.textContent = obj.description;
   comments.innerHTML = '';
+
   const commentsFragment = document.createDocumentFragment();
-  array.forEach((element) => {
-    const commentsItem = document.createElement('li');
-    commentsItem.classList.add('social__comment');
-    commentsFragment.appendChild(commentsItem);
-    const socialCommentImg = document.createElement('img');
-    socialCommentImg.classList.add('social__picture');
-    socialCommentImg.src = element.avatar;
-    socialCommentImg.alt = element.name;
-    socialCommentImg.width = '35';
-    socialCommentImg.height = '35';
-    commentsItem.appendChild(socialCommentImg);
-    const socialCommentText = document.createElement('p');
-    socialCommentText.classList.add('social__text');
-    socialCommentText.textContent = element.message;
-    commentsItem.appendChild(socialCommentText);
+
+  obj.comments.forEach((comment) => {
+    const listItem = document.createElement('li');
+    listItem.classList.add('social__comment');
+    commentsFragment.appendChild(listItem);
+    const img = document.createElement('img');
+    img.classList.add('social__picture');
+    img.src = comment.avatar;
+    img.alt = comment.name;
+    img.width = '35';
+    img.height = '35';
+    listItem.appendChild(img);
+    const paragraph = document.createElement('p');
+    paragraph.classList.add('social__text');
+    paragraph.textContent = comment.message;
+    listItem.appendChild(paragraph);
     comments.appendChild(commentsFragment);
   });
 };
 
-export {getPopup, createComments};
+export {getPopup};
