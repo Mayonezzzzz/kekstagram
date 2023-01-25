@@ -19,11 +19,11 @@ const PREVIEWS = Array.from(picturesContainer.children).filter((preview) => {
 const picturePopup = document.querySelector('.big-picture');
 const popupCancel = picturePopup.querySelector('#picture-cancel');
 
-const onPopupEcsKeydown = () => {
-  if (isEscapeKey) {
+const onPopupEcsKeydown = (evt) => {
+  if (isEscapeKey(evt)) {
     closePopup();
   }
-}
+};
 
 const closePopup = () => {
   picturePopup.classList.add('hidden');
@@ -35,7 +35,7 @@ const openPopup = () => {
   document.body.classList.add('modal-open');
   picturePopup.classList.remove('hidden');
   document.addEventListener('keydown', (onPopupEcsKeydown));
-}
+};
 
 PREVIEWS.forEach((preview) => {
   preview.addEventListener('click', (evt) => {
@@ -47,8 +47,3 @@ PREVIEWS.forEach((preview) => {
 popupCancel.addEventListener('click', () => {
   closePopup();
 });
-
-document.addEventListener('keydown', () => {
-  closePopup();
-});
-
