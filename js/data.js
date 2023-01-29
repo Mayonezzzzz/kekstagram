@@ -38,7 +38,7 @@ const DESCRIPTION_PHOTO = [
 ];
 
 const NUMBER_OF_DESCRIPTION = 25;
-const MAX_NUMBER_OF_COMMENTS = 10;
+const MAX_NUMBER_OF_COMMENTS = 30;
 
 const createComments = () => {
   const comments = [];

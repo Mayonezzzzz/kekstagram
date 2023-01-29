@@ -15,6 +15,18 @@ const onPopupEcsKeydown = (evt) => {
   }
 };
 
+const closeForm = () => {
+  document.body.classList.remove('modal-open');
+  imgUpload.classList.add('hidden');
+  document.removeEventListener('keydown', (onPopupEcsKeydown));
+};
+
+const pristine = new Pristine(form, {
+  classTo: 'img-upload__element',
+  errorTextParent: 'img-upload__element',
+  errorTextClass: 'img-upload__error',
+});
+
 const openForm = () => {
   form.reset();
   pristine.reset();
@@ -22,26 +34,6 @@ const openForm = () => {
   imgUpload.classList.remove('hidden');
   document.addEventListener('keydown', (onPopupEcsKeydown));
 };
-
-const closeForm = () => {
-  document.body.classList.remove('modal-open');
-  imgUpload.classList.add('hidden');
-  document.removeEventListener('keydown', (onPopupEcsKeydown));
-};
-
-// uploadFile.addEventListener('change', () => {
-//   openForm();
-// });
-
-// closeButtonForm.addEventListener('click', () => {
-//   closeForm();
-// });
-
-const pristine = new Pristine(form, {
-  classTo: 'img-upload__element',
-  errorTextParent: 'img-upload__element',
-  errorTextClass: 'img-upload__error',
-});
 
 const regEx = /[^а-яёЁА-Яa-zA-Z0-9]/g;
 
@@ -77,7 +69,7 @@ pristine.addValidator(
 const onFormSubmit = (evt) => {
   evt.preventDefault();
   pristine.validate();
-}
+};
 
 uploadFile.addEventListener('change', openForm);
 closeButtonForm.addEventListener('click', closeForm);
