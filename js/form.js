@@ -1,4 +1,8 @@
 import {isEscapeKey} from './util.js';
+import './scale.js';
+import './effects.js';
+import { resetEffects } from './effects.js';
+import { resetScale } from './scale.js';
 
 const form = document.querySelector('.img-upload__form');
 const imgUpload = form.querySelector('.img-upload__overlay');
@@ -11,6 +15,7 @@ const isFocused = () => document.activeElement === commentsField || document.act
 
 const onPopupEcsKeydown = (evt) => {
   if (isEscapeKey (evt) && !isFocused()) {
+    // eslint-disable-next-line no-use-before-define
     closeForm();
   }
 };
@@ -33,6 +38,8 @@ const openForm = () => {
   document.body.classList.add('modal-open');
   imgUpload.classList.remove('hidden');
   document.addEventListener('keydown', (onPopupEcsKeydown));
+  resetScale();
+  resetEffects();
 };
 
 const regEx = /[^а-яёЁА-Яa-zA-Z0-9]/g;
@@ -74,4 +81,3 @@ const onFormSubmit = (evt) => {
 uploadFile.addEventListener('change', openForm);
 closeButtonForm.addEventListener('click', closeForm);
 form.addEventListener('submit', onFormSubmit);
-

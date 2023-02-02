@@ -71,4 +71,4 @@ commentsLoader.addEventListener('click', () => {
   getComments();
 });
 
-export {getPopup, getComments};
+export {getPopup};
