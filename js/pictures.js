@@ -2,10 +2,13 @@ import {getPopup} from './big-picture.js';
 
 //функция для создания галереи и попапа
 
-const createPictures = (array, template, container) => {
+const createPictures = (array) => {
+  const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
+  const picturesContainer = document.querySelector('.pictures');
+
   array.forEach((element) => {
     const pictureFragment = document.createDocumentFragment();
-    const picture = template.cloneNode(true);
+    const picture = pictureTemplate.cloneNode(true);
     const img = picture.querySelector('.picture__img');
     const likes = picture.querySelector('.picture__likes');
     const comments = picture.querySelector('.picture__comments');
@@ -13,7 +16,7 @@ const createPictures = (array, template, container) => {
     likes.textContent = element.likes;
     comments.textContent = element.comments.length;
     pictureFragment.appendChild(picture);
-    container.appendChild(pictureFragment);
+    picturesContainer.appendChild(pictureFragment);
 
     picture.addEventListener('click', () => {
       getPopup(element);
