@@ -1,10 +1,15 @@
 import {getPopup} from './big-picture.js';
 
 //функция для создания галереи и попапа
+const removePictures = () => {
+  document.querySelectorAll('.picture').forEach((element) => element.remove());
+};
 
 const createPictures = (array) => {
+  removePictures();
   const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
   const picturesContainer = document.querySelector('.pictures');
+
 
   array.forEach((element) => {
     const pictureFragment = document.createDocumentFragment();

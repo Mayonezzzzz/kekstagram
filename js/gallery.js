@@ -1,6 +1,14 @@
 import {createPictures} from './pictures.js';
 import {isEscapeKey} from './util.js';
+import { debounce } from './util.js';
 import { getData } from './api.js';
+
+const imfFiltersForm = document.querySelector('.img-filters__form');
+const filterDefault = imfFiltersForm.querySelector('#filter-default');
+const filterRandom = imfFiltersForm.querySelector('#filter-random');
+const filterDiscussed = imfFiltersForm.querySelector('#filter-discussed');
+let newPicturesArray = [];
+
 
 const errorLoad = (string) => {
   const block = document.createElement('div');
@@ -29,7 +37,43 @@ const errorLoad = (string) => {
   }, 7000);
 };
 
-getData(createPictures, errorLoad);
+const randomSort = () => Math.random() - 0.5;
+
+const discussedSort = (pictureA, pictureB) => pictureB.comments.length - pictureA.comments.length;
+
+const sortPictures = (picturesArray, db) => {
+  imfFiltersForm.addEventListener('click', (evt) => {
+    newPicturesArray = [...picturesArray];
+    switch (evt.target.id) {
+      case 'filter-default':
+        filterDefault.classList.add('img-filters__button--active');
+        filterRandom.classList.remove('img-filters__button--active');
+        filterDiscussed.classList.remove('img-filters__button--active');
+        break;
+      case 'filter-random':
+        filterDefault.classList.remove('img-filters__button--active');
+        filterRandom.classList.add('img-filters__button--active');
+        filterDiscussed.classList.remove('img-filters__button--active');
+        newPicturesArray = newPicturesArray.sort(randomSort).slice(0, 10);
+        break;
+      case 'filter-discussed':
+        filterDefault.classList.remove('img-filters__button--active');
+        filterRandom.classList.remove('img-filters__button--active');
+        filterDiscussed.classList.add('img-filters__button--active');
+        newPicturesArray = newPicturesArray.sort(discussedSort);
+        break;
+    }
+    db();
+  });
+};
+
+const renderPictures = (pictures) => {
+  document.querySelector('.img-filters').classList.remove('img-filters--inactive');
+  createPictures(pictures);
+  sortPictures(pictures, debounce(() => createPictures(newPicturesArray)));
+};
+
+getData(renderPictures, errorLoad);
 
 const picturePopup = document.querySelector('.big-picture');
 const popupCancel = picturePopup.querySelector('#picture-cancel');

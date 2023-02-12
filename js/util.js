@@ -5,10 +5,16 @@ const getRandomNumber = (a, b) => {
   return Math.floor(result);
 };
 
-//const checkStringLength = (string, length) => string.length <= length;
-
 const getRandomArrayElements = (array) => array[getRandomNumber(0,array.length - 1)];
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-export {getRandomNumber, getRandomArrayElements, isEscapeKey};
+const debounce = (callback, timeoutDelay = 500) => {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+
+export {getRandomNumber, getRandomArrayElements, isEscapeKey, debounce};

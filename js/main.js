@@ -1,6 +1,7 @@
 import './gallery.js';
 import './form.js';
 import './api.js';
+import './loadPhoto.js';
 import { sendData } from './api.js';
 import { setOnFormSubmit, onSendSuccess, onSendFail } from './form.js';
 
